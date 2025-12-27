@@ -16,3 +16,4 @@ Web app ini akan mengirimkan notifikasi sesuai waktu yang sudah kamu tetapkan.
 
 1. Ketepatan fungsionalitas web app (termasuk error handling).
 2. Kualitas keseluruhan UI/UX dari web app.
+
