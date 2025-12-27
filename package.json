@@ -1,0 +1,35 @@
+{
+  "name": "challenge-basic-backend-1",
+  "version": "1.0.0",
+  "description": "IngetinGw adalah web app sederhana yang membantu kamu membuat pengingat untuk event-event penting dalam hidupmu.   Web app ini akan mengirimkan notifikasi sesuai waktu yang sudah kamu tetapkan.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/affandiagung/challenge-basic-backend-1/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/affandiagung/challenge-basic-backend-1/issues"
+  },
+  "homepage": "https://github.com/affandiagung/challenge-basic-backend-1#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
