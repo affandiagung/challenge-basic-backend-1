@@ -20,7 +20,8 @@ reminders.forEach(reminder => {
         minute: "2-digit",
         second: "2-digit",
         hour12: false
-    }).replace(",", "");
+    }).replace(",", "")
+    .replace(/\./g, ":");
 
     reminder.event_at = new Date(event_at * 1000).toLocaleString("id-ID", {
         year: "numeric",
@@ -30,7 +31,8 @@ reminders.forEach(reminder => {
         minute: "2-digit",
         second: "2-digit",
         hour12: false
-    }).replace(",", "");
+    }).replace(",", "")
+    .replace(/\./g, ":");
 });
 
 app.use(cors());
