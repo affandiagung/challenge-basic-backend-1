@@ -5,7 +5,7 @@ const reminderSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
   remind_at: z.string().refine(val => isValidDateTime(val), {
-    message: "remind_at must be valid datetime DD/MM/YYYY HH:mm:ss"
+    message: "remind_at must be valid datetime DD/MM/YYYY HH:mm:ss and greater than now"
   }),
   event_at: z.string().refine(val => isValidDateTime(val), {
     message: "event_at must be valid datetime DD/MM/YYYY HH:mm:ss and greater than now"

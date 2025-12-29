@@ -7,10 +7,10 @@ const startReminderJob = require("./jobs/reminder.job");
 
 const app = express();
 
-// Setting reminders to store data , 20 detik setelah
+// Setting reminders to store data , 2 detik setelah
 const nowInSeconds = Math.floor(Date.now() / 1000);
 reminders.forEach(reminder => {
-    const remind_at = nowInSeconds + 20;
+    const remind_at = nowInSeconds + 2;
     const event_at = nowInSeconds + 1200
 
     reminder.remind_at = new Date(remind_at * 1000).toLocaleString("id-ID", {
