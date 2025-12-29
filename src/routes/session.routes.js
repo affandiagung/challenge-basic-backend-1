@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * POST /api/session
- * Login
+ * Untuk Login
  */
 router.post("/", (req, res) => {
   const { email, password } = req.body;

@@ -8,8 +8,10 @@ function login(email, password) {
 
     if (!user) return null;
 
-    // const accessToken = uuidv4();
-    const accessToken = "ac3c8ea9-3124-4a76-bcda-e50743de5fdc";
+    const accessToken = uuidv4();
+
+    // ini bisa digunakan untuk testing
+    // const accessToken = "ac3c8ea9-3124-4a76-bcda-e50743de5fdc";
 
     const refreshToken = uuidv4();
 

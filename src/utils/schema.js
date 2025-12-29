@@ -24,7 +24,6 @@ function isValidDateTime(str) {
   return !isNaN(date.getTime()) && date > new Date();
 }
 
-
 module.exports = {
   reminderSchema
 };

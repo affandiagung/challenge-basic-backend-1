@@ -14,6 +14,7 @@ const router = express.Router();
 
 /**
  * GET /api/reminders?limit=
+ * Menampilkan list reminders
  */
 router.get("/", auth, (req, res) => {
   const limit = Number(req.query.limit) || 10;
@@ -27,6 +28,7 @@ router.get("/", auth, (req, res) => {
 
 /**
  * POST /api/reminders
+ * Membuat reminder baru
  */
 router.post("/", auth, (req, res) => {
   const parseResult = reminderSchema.safeParse(req.body);
@@ -44,6 +46,7 @@ router.post("/", auth, (req, res) => {
 
 /**
  * GET /api/reminders/:id
+ * Menampilkan dreminder berdasarkan id
  */
 router.get("/:id", auth, (req, res) => {
   const reminder = getReminder(req.userId, req.params.id);
@@ -57,6 +60,7 @@ router.get("/:id", auth, (req, res) => {
 
 /**
  * PUT /api/reminders/:id
+ * Mengupdate reminder berdasarkan id
  */
 router.put("/:id", auth, (req, res) => {
   const parseResult = reminderSchema.safeParse(req.body);
@@ -81,6 +85,7 @@ router.put("/:id", auth, (req, res) => {
 
 /**
  * DELETE /api/reminders/:id
+ * Menghapus reminder berdasarkan id
  */
 router.delete("/:id", auth, (req, res) => {
   const success = deleteReminder(req.userId, req.params.id);

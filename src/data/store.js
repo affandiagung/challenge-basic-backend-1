@@ -7,14 +7,24 @@ const users = [
 const accessTokens = new Map();
 const refreshTokens = new Map();
 
+// Dummy data untuk reminder
 const reminders = [{
   "id": 1,
-  "userId" :1 ,
-  "title": "Meeting with Bob",
+  "userId": 1,
+  "title": "Meeting with Tono",
   "description": "Discuss about new project related to new system",
   "remind_at": null,
   "event_at": null,
-  "is_sent" : false
+  "is_sent": false
+},
+{
+  "id": 2,
+  "userId": 2,
+  "title": "Meeting with Jon",
+  "description": "Discuss about new update on project",
+  "remind_at": null,
+  "event_at": null,
+  "is_sent": false
 }];
 
 module.exports = {
