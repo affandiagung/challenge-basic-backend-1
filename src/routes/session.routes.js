@@ -6,6 +6,13 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Login User
+ */
+
+/**
+ * @swagger
  * /session:
  *   post:
  *     summary: Login user

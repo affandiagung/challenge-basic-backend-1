@@ -32,8 +32,14 @@ function getReminder(userId, id) {
     );
 }
 
+function checkReminder(userId, id) {
+    return reminders.find(
+        (r) => r.id === Number(id) && r.userId === userId && !r.is_sent
+    );
+}
+
 function updateReminder(userId, id, payload) {
-    const reminder = getReminder(userId, id);
+    const reminder = checkReminder(userId, id);
     if (!reminder) return null;
 
     if (payload.title !== undefined) reminder.title = payload.title;

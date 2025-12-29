@@ -42,14 +42,28 @@ function login(email, password) {
 
 function refreshAccessToken(refreshToken) {
     const data = refreshTokens.get(refreshToken);
-    if (!data) return null;
+    if (!data) return null; // refresh token tidak valid
 
     if (Date.now() > data.expiresAt) {
-        accessTokens.delete(token);
-        return null
+        // hapus refresh token yang sudah expired
+        refreshTokens.delete(refreshToken);
+        return null;
     }
 
-    return data.userId
+    // buat access token baru
+    const newAccessToken = uuidv4();
+    const accessTokenExpiresAt = Date.now() + 1000 * 60 * 60; // 1 jam
+    accessTokens.set(newAccessToken, {
+        userId: data.userId,
+        expiresAt: accessTokenExpiresAt
+    });
+
+    return {
+        accessToken: newAccessToken,
+        expiresAt: new Date(accessTokenExpiresAt).toLocaleString("id-ID", {
+            
+        })
+    };
 }
 
 function verifyAccessToken(token) {

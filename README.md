@@ -16,6 +16,7 @@ Backend service built with ExorressJS for a simple reminder application with Use
 - Zod – Request body validation
 - Nodemailer – Email delivery
 - [Mailpit](https://github.com/axllent/mailpit) – SMTP testing server
+- Swagger – API documentation -  `swagger-jsdoc` & `swagger-ui-express`
 - UUID – Token and identifier generation
 - dotenv – Environment variable management
 - Morgan – HTTP request logging
