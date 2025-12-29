@@ -1,7 +1,8 @@
 #  IngetinGw API Services (ExpressJS)
 Backend service built with ExorressJS for a simple reminder application with User Authentication, User-Based reminders , and Email Notification triggered at specific time using SMTP (Mailpit)
 
-## ✨ Features
+---
+### ✨ Features
 1. User authentication (login & token refresh)
 2. Short-lived access token (expires in 20 seconds)
 3. Refresh access token mechanism
@@ -10,7 +11,8 @@ Backend service built with ExorressJS for a simple reminder application with Use
 6. SMTP testing using Mailpit
 7. Consistent API response format
 
-## 🧱 Tech Stack
+---
+### 🧱 Tech Stack
 - Node.js
 - Express.js – Web framework
 - Zod – Request body validation
@@ -25,7 +27,8 @@ Backend service built with ExorressJS for a simple reminder application with Use
 - Supertest – HTTP assertions for API testing
 - In-memory storage (no database)
 
-## 🔐 Authentication
+---
+### 🔐 Authentication
 
 The API uses an access token and refresh token mechanism.
 
@@ -50,7 +53,8 @@ When the access token expires, the client requests a new one using the refresh t
 
 Server returns a new access token
 
-## 📁 Project Structure
+---
+### 📁 Project Structure
 
 ```
 docs/
@@ -96,18 +100,67 @@ test/
 │   └── setup.js
 │
 ├── .gitignore
+├── .env_example
 │
 README.md
 ```
 
+---
+### ⏰ Reminder Notification Rules
+
+- Email is sent **exactly when `remind_at` is reached**
+- No rule for "minutes before the event"
+- `event_at` is for **informational purposes only**
+- Scheduler runs periodically every second (polling in-memory data)
 
 
-⏰ Reminder Notification Rules
 
-Email dikirim tepat saat remind_at tercapai
 
-Tidak ada rule "berapa menit sebelum event"
 
-event_at hanya sebagai informasi event
+---
 
-Scheduler berjalan secara periodik (polling in-memory data)
+
+## 🚀 Installation & Setup
+
+1. Clone the repository:
+```bash
+    git clone https://github.com/affandiagung/challenge-basic-backend-1
+    cd challenge-basic-backend-1
+```
+
+2. Install Dependencies
+```bash
+    npm install
+```
+
+3. Copy .env.example to .env and update values:
+```bash
+    cp .env.example .env
+```
+Environment Variables
+| Variable             | Description                | Example    |
+| -------------------- | -------------------------- | ---------- |
+| PORT                 | Server port                | 5000       |
+| SMTP_HOST            | SMTP server host           | localhost  |
+| SMTP_PORT            | SMTP server port           | 1025       |
+
+4. Start server (development mode):
+```bash
+    npm run dev
+```
+
+## 📜 API Documentation (Swagger)
+
+By default, Swagger documentation is available at:
+
+[http://localhost:5000/api/swagger](http://localhost:5000/api/swagger)
+
+> Note: If you change the `PORT` value in your `.env` file, replace `5000` with the port number you set.
+
+
+## 🧪 Testing
+
+Run tests with:
+```bash
+    npm run test
+```
