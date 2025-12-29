@@ -21,6 +21,8 @@ Backend service built with ExorressJS for a simple reminder application with Use
 - dotenv – Environment variable management
 - Morgan – HTTP request logging
 - CORS – Cross-Origin Resource Sharing support
+- Jest – Testing framework
+- Supertest – HTTP assertions for API testing
 - In-memory storage (no database)
 
 ## 🔐 Authentication
@@ -88,7 +90,24 @@ src/
 ├── app.js
 ├── server.js
 │
+test/
+│   ├── reminder.test.js
+│   ├── session.test.js
+│   └── setup.js
+│
+├── .gitignore
+│
 README.md
 ```
 
 
+
+⏰ Reminder Notification Rules
+
+Email dikirim tepat saat remind_at tercapai
+
+Tidak ada rule "berapa menit sebelum event"
+
+event_at hanya sebagai informasi event
+
+Scheduler berjalan secara periodik (polling in-memory data)
