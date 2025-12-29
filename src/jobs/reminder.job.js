@@ -19,7 +19,7 @@ function startReminderJob() {
                     `📧 Reminder email sent to ${user.email} (reminder id=${reminder.id})`
                 );
             } catch (err) {
-                console.error("Failed to send reminder email", err);
+                console.error(`Failed to send reminder to ${user.email} (reminder id=${reminder.id})`, err);
             }
             reminder.is_sent = true; // gagal atau sukses di seting sebagai true, belum di handling untuk pengiriman semua dianggap sukses
         }
