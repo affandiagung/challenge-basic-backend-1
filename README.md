@@ -1,34 +1,93 @@
-# Challenge Basic Backend 1 - IngetinGw
+#  IngetinGw API Services (ExpressJS)
+Backend service built with ExorressJS for a simple reminder application with User Authentication, User-Based reminders , and Email Notification triggered at specific time using SMTP (Mailpit)
 
-IngetinGw adalah web app sederhana yang membantu kamu membuat pengingat untuk event-event penting dalam hidupmu.  
-Web app ini akan mengirimkan notifikasi sesuai waktu yang sudah kamu tetapkan.
+## ✨ Features
+1. User authentication (login & token refresh)
+2. Short-lived access token (expires in 20 seconds)
+3. Refresh access token mechanism
+4. Reminder CRUD operations (scoped to authenticated user)
+5. Email notification when reminder is due
+6. SMTP testing using Mailpit
+7. Consistent API response format
 
-## Tugas Kamu
+## 🧱 Tech Stack
+- Node.js
+- Express.js – Web framework
+- Zod – Request body validation
+- Nodemailer – Email delivery
+- [Mailpit](https://github.com/axllent/mailpit) – SMTP testing server
+- UUID – Token and identifier generation
+- dotenv – Environment variable management
+- Morgan – HTTP request logging
+- CORS – Cross-Origin Resource Sharing support
+- In-memory storage (no database)
 
-1. Fork repository ini.
-2. Implementasikan backend service sesuai dengan spesifikasi yang ada di [docs](./docs/). Kamu bebas menggunakan bahasa apa pun untuk mengembangkan API server. Untuk SMTP server, kita akan menggunakan [Mailpit](https://github.com/axllent/mailpit).
-3. Implementasikan frontend service berdasarkan fitur-fitur yang tersedia pada API.
-4. Gunakan Docker Compose untuk menjalankan seluruh service yang dibutuhkan.
-5. Jelaskan di README.md bagaimana cara menjalankan project-mu.
-6. Isi [formulir ini](https://forms.gle/EuAQsdKS5j5MGTvx7) sebagai tanda bahwa kamu sudah menyelesaikan challenge ini.
+🔐 Authentication
 
-## Kriteria Evaluasi
+The API uses an access token and refresh token mechanism.
 
-1. Ketepatan fungsionalitas web app (termasuk error handling).
-2. Kualitas keseluruhan UI/UX dari web app.
+Token Types
+
+| Token         | Purpose                     | Lifetime   |
+| ------------- | --------------------------- | ---------- |
+| Access Token  | Authenticate API requests   | 1 hour |
+| Refresh Token | Generate a new access token | Long-lived |
 
 
-# How To Create Project 
+## Authentication Flow
+
+User logs in and receives an access token and a refresh token
+
+Client includes the access token in the Authorization header:
+```
+Authorization: Bearer <access_token>
+```
+
+When the access token expires, the client requests a new one using the refresh token
+
+Server returns a new access token
+
+📁 Project Structure
 
 ```
-    npm init -y
-    npm install express
-    npm install dotenv cors morgan
+docs/
+│   ├── common_errors.md
+│   └── rest_api.md
+│
+src/
+│
+├── config
+│   └── mail.js
+│   └── mail.js
+│
+├── data/
+│   └── store.js
+│
+├── jobs/
+│   └── reminder.job.js
+│
+├── middlewares/
+│   └── auth.js
+│
+├── routes/
+│   ├── index.js
+│   ├── auth.routes.js
+│   └── reminder.routes.js
+│
+├── services/
+│   ├── auth.service.js
+│   ├── mail.service.js
+│   └── reminder.service.js
+│
+├── utils/
+│   ├── response.js
+│   ├── schema.js
+│   └── time.js
+│
+├── app.js
+├── server.js
+│
+README.md
 ```
 
-Express sebagai framework Backend
-Dotenv untuk .env
-Cors untuk izin akses 
-Morgan untuk logger
 
-# How To Run Project

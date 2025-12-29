@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { users, accessTokens, refreshTokens } = require('../data/store');
 
-const ACCESS_TOKEN_TTL = 3600 * 1000 // 20 detik
+const ACCESS_TOKEN_TTL = 3600 * 1000 // 1 jam
 
 function login(email, password) {
     const user = users.find(user => user.email === email && user.password === password);
