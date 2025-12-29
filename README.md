@@ -22,7 +22,7 @@ Backend service built with ExorressJS for a simple reminder application with Use
 - CORS – Cross-Origin Resource Sharing support
 - In-memory storage (no database)
 
-🔐 Authentication
+## 🔐 Authentication
 
 The API uses an access token and refresh token mechanism.
 
@@ -47,7 +47,7 @@ When the access token expires, the client requests a new one using the refresh t
 
 Server returns a new access token
 
-📁 Project Structure
+## 📁 Project Structure
 
 ```
 docs/

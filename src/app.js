@@ -4,6 +4,8 @@ const morgan = require("morgan");
 const routes = require("./routes");
 const { reminders } = require("./data/store");
 const startReminderJob = require("./jobs/reminder.job");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./docs/swagger");
 
 const app = express();
 
@@ -40,6 +42,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 startReminderJob();
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(routes);
 
 

@@ -5,8 +5,30 @@ const { ok, err } = require("../utils/response");
 const router = express.Router();
 
 /**
- * POST /api/session
- * Untuk Login
+ * @swagger
+ * /session:
+ *   post:
+ *     summary: Login user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: affandi@gmail.com
+ *               password:
+ *                 type: string
+ *                 example: affandi789
+ *     responses:
+ *       200:
+ *         description: Login success
  */
 router.post("/", (req, res) => {
   const { email, password } = req.body;
@@ -30,8 +52,25 @@ router.post("/", (req, res) => {
 });
 
 /**
- * PUT /api/session
- * Untuk refresh Access Token 
+ * @swagger
+ * /session:
+ *   put:
+ *     summary: Refresh access token
+ *     tags: [Auth]
+ *     description: Replace expired access token with a new one using refresh token.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: Bearer <refresh_token>
+ *         description: The refresh token obtained during login
+ *     responses:
+ *       200:
+ *         description: Access token refreshed successfully
  */
 router.put("/", (req, res) => {
   const authHeader = req.headers.authorization || "";
