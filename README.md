@@ -26,6 +26,7 @@ Backend service built with ExorressJS for a simple reminder application with Use
 - Jest – Testing framework
 - Supertest – HTTP assertions for API testing
 - In-memory storage (no database)
+- Docker & Docker Compose
 
 ---
 ### 🔐 Authentication
@@ -100,6 +101,8 @@ test/
 │   └── setup.js
 │
 ├── .gitignore
+├── docker-compose.yml
+├── DockerFile
 ├── .env_example
 │
 README.md
@@ -122,12 +125,15 @@ README.md
 
 ## 🚀 Installation & Setup
 
+
 1. Clone the repository:
 ```bash
     git clone https://github.com/affandiagung/challenge-basic-backend-1
     cd challenge-basic-backend-1
 ```
 
+---
+### USING NODEJS
 2. Install Dependencies
 ```bash
     npm install
@@ -164,3 +170,11 @@ Run tests with:
 ```bash
     npm run test
 ```
+
+---
+### USING DOCKER
+By using docker, no need to install Node.js, npm, or Mailpit locally.
+```bash
+    docker compose up --build
+```
+---

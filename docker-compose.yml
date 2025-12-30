@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  api:
+    container_name: reminder-api
+    build: .
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      - mailpit
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    ports:
+      - "1025:1025"  
+      - "8025:8025" 
+    restart: unless-stopped
