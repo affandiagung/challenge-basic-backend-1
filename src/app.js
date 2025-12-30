@@ -16,6 +16,7 @@ reminders.forEach(reminder => {
     const event_at = nowInSeconds + 1200
 
     reminder.remind_at = new Date(remind_at * 1000).toLocaleString("id-ID", {
+        timeZone: "Asia/Jakarta",
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
@@ -27,6 +28,7 @@ reminders.forEach(reminder => {
         .replace(/\./g, ":");
 
     reminder.event_at = new Date(event_at * 1000).toLocaleString("id-ID", {
+        timeZone: "Asia/Jakarta",
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
