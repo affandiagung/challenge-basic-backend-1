@@ -31,7 +31,16 @@ async function loadReminders(limit = 20) {
       if (confirm("Delete reminder?")) deleteReminder(r.id);
     };
 
+    const detail = document.createElement("button");
+    detail.className = "btn btn-sm btn-warning me-2";
+    detail.innerText = "Detail";
+    detail.onclick = () => {
+      window.location.href = `detail.html?id=${r.id}`;
+    };
+
+
     btnGroup.appendChild(del);
+    btnGroup.appendChild(detail);
     li.appendChild(left);
     li.appendChild(btnGroup);
     list.appendChild(li);
@@ -44,10 +53,10 @@ async function createReminder() {
   const remindVal = document.getElementById("remind_at").value;
   const eventVal = document.getElementById("event_at").value;
 
-  if (!title || !remindVal) {
-    alert("Title and Remind At are required");
-    return;
-  }
+  if (!title) return alert("Title is required");
+  if (!description) return alert("Description is required");
+  if (!remindVal) return alert("Remind At is required");
+  if (!eventVal) return alert("Event At is required");
 
   const payload = {
     title,
@@ -84,6 +93,6 @@ async function deleteReminder(id) {
 
 function escapeHtml(str = "") {
   return String(str).replace(/[&<>"']/g, s => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[s]));
 }

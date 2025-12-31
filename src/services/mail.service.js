@@ -1,8 +1,6 @@
 const transporter = require("../config/mail");
 
 async function sendReminderEmail(to, reminder) {
-    //   const eventISO = new Date(reminder.event_at)
-
     await transporter.sendMail({
         from: "reminder@app.local",
         to,

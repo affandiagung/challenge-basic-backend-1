@@ -12,7 +12,7 @@ const app = express();
 // Setting reminders to store data , 5 detik setelah
 const nowInSeconds = Math.floor(Date.now() / 1000);
 reminders.forEach(reminder => {
-    reminder.remind_at = nowInSeconds + 2;
+    reminder.remind_at = nowInSeconds + 5;
     reminder.event_at = nowInSeconds + 1200    
 });
 
