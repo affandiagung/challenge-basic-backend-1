@@ -15,7 +15,7 @@ function authMiddleware(req, res, next) {
     return err(res, 401, "ERR_UNAUTHORIZED", "invalid or expired access token");
   }
 
-  req.userId = userId;
+  req.user_id = userId;
   next();
 }
 

@@ -9,35 +9,11 @@ const swaggerSpec = require("./docs/swagger");
 
 const app = express();
 
-// Setting reminders to store data , 2 detik setelah
+// Setting reminders to store data , 5 detik setelah
 const nowInSeconds = Math.floor(Date.now() / 1000);
 reminders.forEach(reminder => {
-    const remind_at = nowInSeconds + 2;
-    const event_at = nowInSeconds + 1200
-
-    reminder.remind_at = new Date(remind_at * 1000).toLocaleString("id-ID", {
-        timeZone: "Asia/Jakarta",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-    }).replace(",", "")
-        .replace(/\./g, ":");
-
-    reminder.event_at = new Date(event_at * 1000).toLocaleString("id-ID", {
-        timeZone: "Asia/Jakarta",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-    }).replace(",", "")
-        .replace(/\./g, ":");
+    reminder.remind_at = nowInSeconds + 2;
+    reminder.event_at = nowInSeconds + 1200    
 });
 
 app.use(cors());

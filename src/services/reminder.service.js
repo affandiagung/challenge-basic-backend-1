@@ -4,10 +4,10 @@ let reminderIdSeq = reminders.length
     ? Math.max(...reminders.map(r => r.id)) + 1
     : 0;
 
-function createReminder(userId, payload) {
+function createReminder(user_id, payload) {
     const reminder = {
         id: reminderIdSeq++,
-        userId,
+        user_id,
         title: payload.title,
         description: payload.description,
         remind_at: payload.remind_at,
@@ -16,30 +16,37 @@ function createReminder(userId, payload) {
     };
 
     reminders.push(reminder);
-    return reminder;
+    return (({ user_id, is_sent, ...rest }) => rest)(reminder);
 }
 
-function listReminders(userId, limit = 10) {
+function listReminders(user_id, limit = 10) {
+
     return reminders
-        .filter((r) => r.userId === userId)
+        .filter((r) => r.user_id === user_id && !r.is_sent)
         .sort((a, b) => a.remind_at - b.remind_at)
-        .slice(0, limit);
+        .slice(0, limit)
+        .map(({ user_id, is_sent, ...rest }) => rest);
 }
 
-function getReminder(userId, id) {
-    return reminders.find(
-        (r) => r.id === Number(id) && r.userId === userId
+function getReminder(user_id, id) {
+    const reminder = reminders.find(
+        r => r.id === Number(id) && r.user_id === user_id && !r.is_sent
     );
+
+    if (!reminder) return null;
+
+    return (({ user_id, is_sent, ...rest }) => rest)(reminder);
 }
 
-function checkReminder(userId, id) {
+function checkReminder(user_id, id) {
     return reminders.find(
-        (r) => r.id === Number(id) && r.userId === userId && !r.is_sent
-    );
+        (r) => r.id === Number(id) && r.user_id === user_id && !r.is_sent
+    )
 }
 
-function updateReminder(userId, id, payload) {
-    const reminder = checkReminder(userId, id);
+function updateReminder(user_id, id, payload) {
+    const reminder = checkReminder(user_id, id);
+    
     if (!reminder) return null;
 
     if (payload.title !== undefined) reminder.title = payload.title;
@@ -50,12 +57,12 @@ function updateReminder(userId, id, payload) {
     if (payload.event_at !== undefined)
         reminder.event_at = payload.event_at;
 
-    return reminder;
+    return (({ user_id, is_sent, ...rest }) => rest)(reminder);
 }
 
-function deleteReminder(userId, id) {
+function deleteReminder(user_id, id) {
     const index = reminders.findIndex(
-        (r) => r.id === Number(id) && r.userId === userId
+        (r) => r.id === Number(id) && r.user_id === user_id
     );
 
     if (index === -1) return false;

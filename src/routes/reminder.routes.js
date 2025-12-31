@@ -8,7 +8,7 @@ const {
   deleteReminder
 } = require("../services/reminder.service");
 const { ok, err } = require("../utils/response");
-const { reminderSchema } = require("../utils/schema");
+const { reminderSchema, updateReminderSchema } = require("../utils/schema");
 const router = express.Router();
 
 
@@ -38,13 +38,13 @@ const router = express.Router();
  *           type: string
  *           example: "Discuss about new project"
  *         remind_at:
- *           type: string
- *           format: date-time
- *           example: "01/02/2026 09:50:10"
+ *           type: number
+ *           format: Unix TimeStamp ( 10 Digit ) 
+ *           example: 1735689600
  *         event_at:
- *           type: string
- *           format: date-time
- *           example: "01/02/2026 10:50:10"
+ *           type: number
+ *           format: Unix TimeStamp
+ *           example: 1735689600
  */
 
 /**
@@ -68,7 +68,7 @@ const router = express.Router();
  */
 router.get("/", auth, (req, res) => {
   const limit = Number(req.query.limit) || 10;
-  const data = listReminders(req.userId, limit);
+  const data = listReminders(req.user_id, limit);
 
   return ok(res, {
     reminders: data,
@@ -101,7 +101,7 @@ router.post("/", auth, (req, res) => {
     return err(res, 400, "ERR_BAD_REQUEST", messages.join("; "));
   }
 
-  const reminder = createReminder(req.userId, parseResult.data);
+  const reminder = createReminder(req.user_id, parseResult.data);
 
   return ok(res, reminder);
 });
@@ -131,7 +131,7 @@ router.post("/", auth, (req, res) => {
  */
 
 router.get("/:id", auth, (req, res) => {
-  const reminder = getReminder(req.userId, req.params.id);
+  const reminder = getReminder(req.user_id, req.params.id);
 
   if (!reminder) {
     return err(res, 404, "ERR_NOT_FOUND", "reminder not found");
@@ -171,7 +171,7 @@ router.get("/:id", auth, (req, res) => {
  */
 
 router.put("/:id", auth, (req, res) => {
-  const parseResult = reminderSchema.safeParse(req.body);
+  const parseResult = updateReminderSchema.safeParse(req.body);
 
   if (!parseResult.success) {
     const messages = parseResult.error.issues.map(e => `${e.path.join(".")}: ${e.message}`);
@@ -179,7 +179,7 @@ router.put("/:id", auth, (req, res) => {
   }
 
   const reminder = updateReminder(
-    req.userId,
+    req.user_id,
     req.params.id,
     req.body
   );
@@ -213,7 +213,7 @@ router.put("/:id", auth, (req, res) => {
  *         description: Reminder not found
  */
 router.delete("/:id", auth, (req, res) => {
-  const success = deleteReminder(req.userId, req.params.id);
+  const success = deleteReminder(req.user_id, req.params.id);
 
   if (!success) {
     return err(res, 404, "ERR_NOT_FOUND", "reminder not found");

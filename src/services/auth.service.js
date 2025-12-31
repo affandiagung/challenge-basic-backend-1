@@ -16,22 +16,17 @@ function login(email, password) {
     const refreshToken = uuidv4();
 
     accessTokens.set(accessToken, {
-        userId: user.id,
+        user_id: user.user_id,
         expiresAt: Date.now() + ACCESS_TOKEN_TTL
     });
 
-    accessTokens.set(accessToken, {
-        userId: user.id,
-        expiresAt: Date.now() + ACCESS_TOKEN_TTL,
-    });
-
     refreshTokens.set(refreshToken, {
-        userId: user.id
+        user_id: user.user_id
     });
 
     return {
         user: {
-            id: user.id,
+            user_id: user.user_id,
             email: user.email,
             name: user.name
         },
@@ -61,7 +56,7 @@ function refreshAccessToken(refreshToken) {
     return {
         accessToken: newAccessToken,
         expiresAt: new Date(accessTokenExpiresAt).toLocaleString("id-ID", {
-            
+
         })
     };
 }
@@ -75,7 +70,7 @@ function verifyAccessToken(token) {
         return null;
     }
 
-    return data.userId;
+    return data.user_id;
 }
 
 module.exports = {

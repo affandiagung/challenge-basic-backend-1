@@ -4,19 +4,18 @@ const { formatWIBToDate } = require("../utils/time");
 
 function startReminderJob() {
     setInterval(async () => {
-        for (const reminder of reminders) {
+        for (const reminder of reminders) {            
             if (reminder.is_sent) continue;
+            if ( reminder.remind_at > Math.floor(Date.now() / 1000)) continue;
 
-            // memastikan agar semua reminder yang lebih dari waktu remider dan belum dikirim  Langsung dikirim
-            if (formatWIBToDate(reminder.remind_at) > (new Date())) continue;
-
-            const user = users.find((u) => u.id === reminder.userId);
+            const user = users.find((u) => u.user_id === reminder.user_id);
             if (!user) continue;
 
             try {
+                reminder.event_at = new Date(reminder.event_at * 1000);
                 await sendReminderEmail(user.email, reminder);
                 console.log(
-                    `📧 Reminder email sent to ${user.email} (reminder id=${reminder.id})`
+                    `Notif sent to ${user.email} (reminder id=${reminder.id}) at ${new Date()}`
                 );
             } catch (err) {
                 console.error(`Failed to send reminder to ${user.email} (reminder id=${reminder.id})`, err);
