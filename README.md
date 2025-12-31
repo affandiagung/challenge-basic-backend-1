@@ -62,10 +62,18 @@ docs/
 │   ├── common_errors.md
 │   └── rest_api.md
 │
+public/
+├── index.html        # Login page
+├── dashboard.html    # List & create & delete reminder
+├── js/
+│   ├── api.js        # fetch wrapper
+│   ├── auth.js       # login & refresh token
+│   └── reminder.js  # CRUD reminder
+│
+│
 src/
 │
 ├── config
-│   └── mail.js
 │   └── mail.js
 │
 ├── data/
@@ -131,17 +139,9 @@ README.md
     git clone https://github.com/affandiagung/challenge-basic-backend-1
     cd challenge-basic-backend-1
 ```
-
----
-### USING NODEJS
-2. Install Dependencies
+2. Copy .env to project
 ```bash
-    npm install
-```
-
-3. Copy .env.example to .env and update values:
-```bash
-    cp .env.example .env
+    cp .env_example .env
 ```
 Environment Variables
 | Variable             | Description                | Example    |
@@ -150,31 +150,32 @@ Environment Variables
 | SMTP_HOST            | SMTP server host           | localhost  |
 | SMTP_PORT            | SMTP server port           | 1025       |
 
-4. Start server (development mode):
-```bash
-    npm run dev
-```
-
-## 📜 API Documentation (Swagger)
-
-By default, Swagger documentation is available at:
-
-[http://localhost:5000/api/swagger](http://localhost:5000/api/swagger)
-
-> Note: If you change the `PORT` value in your `.env` file, replace `5000` with the port number you set.
 
 
-## 🧪 Testing
-
-Run tests with:
-```bash
-    npm run test
-```
-
----
-### USING DOCKER
-By using docker, no need to install Node.js, npm, or Mailpit locally.
+3. Running Docker
 ```bash
     docker compose up --build
 ```
----
+
+By the default the project is running in Port 5000 :
+
+Backend Service : [http://localhost:5000/api/](http://localhost:5000/api/swagger)
+
+Swagger DOCs APIs : [http://localhost:5000/api/swagger](http://localhost:5000/api/swagger)
+
+Frontend Service : [http://localhost:5000](http://localhost:5000)
+
+
+> Note: If you change the `PORT` value in your `.env` file ( example : PORT=8000)
+
+1. Change  file *docker-compose.yml*
+    change line 8
+    - "5000:5000" into
+    - "8000:5000"
+2. The project is running in port 8000 :
+
+    Backend Service : [http://localhost:8000/api/](http://localhost:5000/api/swagger)
+
+    Swagger DOCs APIs : [http://localhost:8000/api/swagger](http://localhost:5000/api/swagger)
+    
+    Frontend Service : [http://localhost:8000](http://localhost:8000)
