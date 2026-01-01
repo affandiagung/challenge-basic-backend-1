@@ -148,20 +148,6 @@ Environment Variables
 | SMTP_PORT            | SMTP server port           | 1025       |
 
 
----
-> Note: If you change the `PORT` value in your `.env` file ( example : PORT=8000)
-> 1. Change  file *docker-compose.yml*
->    change line 8
->    - "5000:5000" into
->    - "8000:5000"
-> 2. The project is running in port 8000 :
->    - Backend Service : [http://localhost:8000/api/](http://localhost:5000/api/swagger)
->    - Swagger DOCs APIs : [http://localhost:8000/api/swagger](http://localhost:5000/api/swagger)
->    - Frontend Service : [http://localhost:8000](http://localhost:8000)
----
-
-
-
 3. Running Docker
 ```bash
     docker compose up --build
@@ -172,4 +158,24 @@ The project is running in :
 - Swagger Docs : [http://localhost:5000/api/swagger](http://localhost:5000/api/swagger)
 - Frontend Service : [http://localhost:5000](http://localhost:5000)
 - Mailpit Server : [http://localhost:8025](http://localhost:8025)
+
+
+---
+ Note: If you change the `PORT` value in your `.env` file ( example : PORT=8000)
+ 1. Change also file `docker-compose.yml`
+    change line 8
+    - "5000:5000" into
+    - "8000:8000"
+ 2. Then run the docker build :
+
+```bash
+    docker compose up --build
+```
+
+ 3. The project is running at :
+    - Backend Service : [http://localhost:8000/api/](http://localhost:8000/api/swagger)
+    - Swagger DOCs APIs : [http://localhost:8000/api/swagger](http://localhost:80000/api/swagger)
+    - Frontend Service : [http://localhost:8000](http://localhost:8000)
+    - Mailpit Server : [http://localhost:8025](http://localhost:8025)
+---
 
