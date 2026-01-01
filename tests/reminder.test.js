@@ -14,7 +14,7 @@ beforeAll(async () => {
 
 describe("Reminder API", () => {
   let reminderId;
-
+  const nowInSeconds = Math.floor(Date.now() / 1000) + 400
   it("should create a new reminder", async () => {
     const res = await request(app)
       .post("/api/reminders")
@@ -22,8 +22,8 @@ describe("Reminder API", () => {
       .send({
         title: "Test Reminder",
         description: "Reminder for testing",
-        remind_at: "30/12/2026 12:00:00",
-        event_at: "31/12/2026 12:00:00"
+        remind_at: nowInSeconds,
+        event_at: nowInSeconds
       });
 
     expect(res.statusCode).toBe(200);
