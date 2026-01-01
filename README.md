@@ -64,20 +64,23 @@ docs/
 │
 public/
 ├── index.html        # Login page
-├── dashboard.html    # List & create & delete reminder
+├── dashboard.html    # List , create & delete reminder
+├── detail.html       # Detail & Update reminder
 ├── js/
 │   ├── api.js        # fetch wrapper
 │   ├── auth.js       # login & refresh token
-│   └── reminder.js  # CRUD reminder
-│
+│   ├── detail.js    
+│   └── reminder.js   
 │
 src/
-│
 ├── config
 │   └── mail.js
 │
 ├── data/
 │   └── store.js
+│
+├── docs/
+│   └── swagger.js
 │
 ├── jobs/
 │   └── reminder.job.js
@@ -109,11 +112,10 @@ test/
 │   └── setup.js
 │
 ├── .gitignore
-├── docker-compose.yml
-├── DockerFile
+├──  docker-compose.yml
+├──  DockerFile
 ├── .env_example
-│
-README.md
+└──  README.md
 ```
 
 ---
@@ -124,12 +126,7 @@ README.md
 - `event_at` is for **informational purposes only**
 - Scheduler runs periodically every second (polling in-memory data)
 
-
-
-
-
 ---
-
 
 ## 🚀 Installation & Setup
 
@@ -151,31 +148,28 @@ Environment Variables
 | SMTP_PORT            | SMTP server port           | 1025       |
 
 
+---
+> Note: If you change the `PORT` value in your `.env` file ( example : PORT=8000)
+> 1. Change  file *docker-compose.yml*
+>    change line 8
+>    - "5000:5000" into
+>    - "8000:5000"
+> 2. The project is running in port 8000 :
+>    - Backend Service : [http://localhost:8000/api/](http://localhost:5000/api/swagger)
+>    - Swagger DOCs APIs : [http://localhost:8000/api/swagger](http://localhost:5000/api/swagger)
+>    - Frontend Service : [http://localhost:8000](http://localhost:8000)
+---
+
+
 
 3. Running Docker
 ```bash
     docker compose up --build
 ```
 
-By the default the project is running in Port 5000 :
+The project is running in :
+- Backend Service : [http://localhost:5000/api/](http://localhost:5000/api/swagger)
+- Swagger Docs : [http://localhost:5000/api/swagger](http://localhost:5000/api/swagger)
+- Frontend Service : [http://localhost:5000](http://localhost:5000)
+- Mailpit Server : [http://localhost:8025](http://localhost:8025)
 
-Backend Service : [http://localhost:5000/api/](http://localhost:5000/api/swagger)
-
-Swagger DOCs APIs : [http://localhost:5000/api/swagger](http://localhost:5000/api/swagger)
-
-Frontend Service : [http://localhost:5000](http://localhost:5000)
-
-
-> Note: If you change the `PORT` value in your `.env` file ( example : PORT=8000)
-
-1. Change  file *docker-compose.yml*
-    change line 8
-    - "5000:5000" into
-    - "8000:5000"
-2. The project is running in port 8000 :
-
-    Backend Service : [http://localhost:8000/api/](http://localhost:5000/api/swagger)
-
-    Swagger DOCs APIs : [http://localhost:8000/api/swagger](http://localhost:5000/api/swagger)
-    
-    Frontend Service : [http://localhost:8000](http://localhost:8000)
