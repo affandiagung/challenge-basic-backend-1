@@ -1,12 +1,14 @@
-const { reminders } = require("../data/store");
+const { reminders, getLastId, getAllReminders, getReminderId } = require("../data/store");
+const { addReminderJob } = require("../queues/reminder.queue");
 
-let reminderIdSeq = reminders.length
-    ? Math.max(...reminders.map(r => r.id)) + 1
-    : 0;
 
-function createReminder(user_id, payload) {
+
+async function createReminder(user_id, payload) {
+
+    let reminderIdSeq = getLastId(reminders) + 1
+
     const reminder = {
-        id: reminderIdSeq++,
+        id: reminderIdSeq,
         user_id,
         title: payload.title,
         description: payload.description,
@@ -16,12 +18,14 @@ function createReminder(user_id, payload) {
     };
 
     reminders.push(reminder);
+    reminder.email = payload.email
+    await addReminderJob(reminder);
+
     return (({ user_id, is_sent, ...rest }) => rest)(reminder);
 }
 
 function listReminders(user_id, limit = 10) {
-
-    return reminders
+    return getAllReminders()
         .filter((r) => r.user_id === user_id && !r.is_sent)
         .sort((a, b) => a.remind_at - b.remind_at)
         .slice(0, limit)
@@ -29,33 +33,21 @@ function listReminders(user_id, limit = 10) {
 }
 
 function getReminder(user_id, id) {
-    const reminder = reminders.find(
-        r => r.id === Number(id) && r.user_id === user_id && !r.is_sent
-    );
+    const reminder = getReminderId(user_id, id);
 
     if (!reminder) return null;
-
     return (({ user_id, is_sent, ...rest }) => rest)(reminder);
 }
 
-function checkReminder(user_id, id) {
-    return reminders.find(
-        (r) => r.id === Number(id) && r.user_id === user_id && !r.is_sent
-    )
-}
-
 function updateReminder(user_id, id, payload) {
-    const reminder = checkReminder(user_id, id);
-    
+    const reminder = getReminderId(user_id, id);
     if (!reminder) return null;
 
-    if (payload.title !== undefined) reminder.title = payload.title;
-    if (payload.description !== undefined)
-        reminder.description = payload.description;
-    if (payload.remind_at !== undefined)
-        reminder.remind_at = payload.remind_at;
-    if (payload.event_at !== undefined)
-        reminder.event_at = payload.event_at;
+    payload.title !== undefined && (reminder.title = payload.title);
+    payload.description !== undefined && (reminder.description = payload.description);
+    payload.remind_at !== undefined && (reminder.remind_at = payload.remind_at);
+    payload.event_at !== undefined && (reminder.event_at = payload.event_at);
+    payload.is_sent !== undefined && (reminder.is_sent = payload.is_sent);
 
     return (({ user_id, is_sent, ...rest }) => rest)(reminder);
 }

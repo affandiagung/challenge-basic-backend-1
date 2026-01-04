@@ -1,9 +1,11 @@
 const transporter = require("../config/mail");
+const { reminders } = require("../data/store");
+const { getReminder } = require("./reminder.service");
 
-async function sendReminderEmail(to, reminder) {
+async function sendReminderEmail(reminder) {
     await transporter.sendMail({
         from: "reminder@app.local",
-        to,
+        to: reminder.email,
         subject: `Reminder: ${reminder.title}`,
         text: `
             Hi,
@@ -12,12 +14,13 @@ async function sendReminderEmail(to, reminder) {
 
             Title: ${reminder.title}
             Description: ${reminder.description}
-            Event time: ${reminder.event_at}
+            Event time: ${new Date(reminder.event_at)}
 
             Thanks
             `
     });
 }
+
 module.exports = {
     sendReminderEmail
 };

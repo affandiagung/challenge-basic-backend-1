@@ -1,28 +1,34 @@
 const { v4: uuidv4 } = require('uuid');
 const { users, accessTokens, refreshTokens } = require('../data/store');
+const jwt = require('jsonwebtoken');
 
-const ACCESS_TOKEN_TTL = 3600 * 1000 // 1 jam
+const ACCESS_TOKEN_TTL = "7h";
+const REFRESH_TOKEN_TTL = "7d";
+
+
+function generateTokens(data) {
+    const accessToken = jwt.sign(
+        { user_id: data.user_id, email: data.email },
+        process.env.JWT_SECRET,
+        { expiresIn: ACCESS_TOKEN_TTL }
+    )
+
+    const refreshToken = jwt.sign(
+        { user_id: data.user_id, email: data.email },
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: REFRESH_TOKEN_TTL }
+    );
+
+    return { accessToken, refreshToken };
+}
+
 
 function login(email, password) {
     const user = users.find(user => user.email === email && user.password === password);
 
     if (!user) return null;
 
-    const accessToken = uuidv4();
-
-    // ini bisa digunakan untuk testing
-    // const accessToken = "ac3c8ea9-3124-4a76-bcda-e50743de5fdc";
-
-    const refreshToken = uuidv4();
-
-    accessTokens.set(accessToken, {
-        user_id: user.user_id,
-        expiresAt: Date.now() + ACCESS_TOKEN_TTL
-    });
-
-    refreshTokens.set(refreshToken, {
-        user_id: user.user_id
-    });
+    const { accessToken, refreshToken } = generateTokens(user);
 
     return {
         user: {
@@ -36,41 +42,26 @@ function login(email, password) {
 }
 
 function refreshAccessToken(refreshToken) {
-    const data = refreshTokens.get(refreshToken);
-    if (!data) return null; // refresh token tidak valid
-
-    if (Date.now() > data.expiresAt) {
-        // hapus refresh token yang sudah expired
-        refreshTokens.delete(refreshToken);
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        return jwt.sign(
+            { user_id: decoded.user_id },
+            process.env.JWT_SECRET,
+            { expiresIn: ACCESS_TOKEN_TTL }
+        );
+    } catch (err) {
+        console.log("Refresh token Not valid")
         return null;
     }
-
-    // buat access token baru
-    const newAccessToken = uuidv4();
-    const accessTokenExpiresAt = Date.now() + 1000 * 60 * 60; // 1 jam
-    accessTokens.set(newAccessToken, {
-        userId: data.userId,
-        expiresAt: accessTokenExpiresAt
-    });
-
-    return {
-        accessToken: newAccessToken,
-        expiresAt: new Date(accessTokenExpiresAt).toLocaleString("id-ID", {
-
-        })
-    };
 }
 
 function verifyAccessToken(token) {
-    const data = accessTokens.get(token);
-    if (!data) return null;
-
-    if (Date.now() > data.expiresAt) {
-        accessTokens.delete(token);
+    try {
+        return jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+        console.log("Token invalid atau expired");
         return null;
     }
-
-    return data.user_id;
 }
 
 module.exports = {

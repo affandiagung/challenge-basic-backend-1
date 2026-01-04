@@ -93,7 +93,9 @@ router.get("/", auth, (req, res) => {
  *         description: Reminder created successfully
  */
 
-router.post("/", auth, (req, res) => {
+router.post("/", auth, async (req, res) => {
+  const reminderat = req.body.remind_at;
+
   const parseResult = reminderSchema.safeParse(req.body);
 
   if (!parseResult.success) {
@@ -101,7 +103,8 @@ router.post("/", auth, (req, res) => {
     return err(res, 400, "ERR_BAD_REQUEST", messages.join("; "));
   }
 
-  const reminder = createReminder(req.user_id, parseResult.data);
+  parseResult.data.email = req.email;
+  const reminder = await createReminder(req.user_id, parseResult.data);
 
   return ok(res, reminder);
 });
@@ -220,6 +223,59 @@ router.delete("/:id", auth, (req, res) => {
   }
 
   return ok(res);
+});
+
+
+/**
+ * @swagger
+ * /reminders/{id}:
+ *   patch:
+ *     summary: Mark a reminder as sent
+ *     tags: [Reminders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the reminder to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               is_sent:
+ *                 type: boolean
+ *                 example: true
+ *               user_id:
+ *                 type: integer
+ *             required:
+ *               - is_sent
+ *     responses:
+ *       200:
+ *         description: Reminder updated successfully
+ *       404:
+ *         description: Reminder not found
+ */
+
+router.patch("/:id", async (req, res) => {
+  const apiKey = req.headers["x-api-key"];
+  if (apiKey !== process.env.API_KEY)
+    return err(res, 401, "ERR_UNAUTHORIZED", "Unauthorized");
+
+  const reminder = updateReminder(
+    req.body.user_id,
+    req.params.id,
+    req.body
+  );
+
+  if (!reminder) return err(res, 404, "ERR_NOT_FOUND", "reminder not found");
+
+  res.json({ message: "Reminder updated", reminder });
 });
 
 module.exports = router;

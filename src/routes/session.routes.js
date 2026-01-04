@@ -81,18 +81,18 @@ router.post("/", (req, res) => {
  */
 router.put("/", (req, res) => {
   const authHeader = req.headers.authorization || "";
-  const token = authHeader.replace("Bearer ", "");
+  const refreshToken = authHeader.replace("Bearer ", "");
 
-  if (!token) {
+  if (!refreshToken) {
     return err(
       res,
       401,
-      "ERR_INVALID_REFRESH_TOKEN",
+      "ERR_NO_REFRESH_TOKEN",
       "invalid refresh token"
     );
   }
 
-  const result = refreshAccessToken(token);
+  const result = refreshAccessToken(refreshToken);
 
   if (!result) {
     return err(

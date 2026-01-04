@@ -9,13 +9,16 @@ function authMiddleware(req, res, next) {
     return err(res, 401, "ERR_UNAUTHORIZED", "missing access token");
   }
 
-  const userId = verifyAccessToken(token);
+  const data = verifyAccessToken(token);
 
-  if (!userId) {
+  if (!data) {
     return err(res, 401, "ERR_UNAUTHORIZED", "invalid or expired access token");
   }
 
-  req.user_id = userId;
+  req.user_id = data.user_id;
+  req.email = data.email
+
+
   next();
 }
 

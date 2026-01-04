@@ -26,9 +26,39 @@ const reminders = [{
   "is_sent": false
 }];
 
+
+function addReminder(reminder) {
+  reminders.push(reminder);
+}
+
+function getReminderId(user, id) {
+  return reminders.find(r => r.id === Number(id) && r.user_id === user && !r.is_sent);
+}
+
+function getLastId(reminders) {
+  return reminders.length > 0 ? reminders[reminders.length - 1].id : 2;
+}
+
+function updateReminder(id, data) {
+  const index = reminders.findIndex(r => r.id === id);
+  if (index !== -1) {
+    reminders[index] = { ...reminders[index], ...data };
+  }
+}
+
+function getAllReminders() {
+  return reminders.filter(r => !r.is_sent);
+}
+
+
 module.exports = {
   users,
   accessTokens,
   refreshTokens,
-  reminders
+  reminders,
+  getReminderId,
+  updateReminder,
+  addReminder,
+  getAllReminders,
+  getLastId
 };
