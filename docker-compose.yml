@@ -35,12 +35,3 @@ services:
       - "8025:8025"
     restart: unless-stopped
 
-  worker:
-    container_name: reminder-worker
-    build: .
-    command: ["node", "worker.js"]
-    env_file:
-      - .env
-    depends_on:
-      - redis
-    restart: unless-stopped
