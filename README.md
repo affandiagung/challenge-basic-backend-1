@@ -179,3 +179,10 @@ The project is running in :
     - Mailpit Server : [http://localhost:8025](http://localhost:8025)
 ---
 
+
+Credential Login:
+
+Email :  affandi@gmail.com
+
+Password :  affandi789
+
